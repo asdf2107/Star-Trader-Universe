@@ -4,22 +4,30 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public class Item
+    public class Item : ISellable
     {
         public int Hp { get; protected set; }
+        public int MaxHp { get; protected set; }
         public bool IsBroken { get; protected set; } = false;
-        public int Mass { get; protected set; }
+        public int Mass { get; set; }
 
-        public Item(int hp, int mass)
+        public Item(int mass, int maxHp)
         {
-            Hp = hp;
+            Hp = maxHp;
+            MaxHp = maxHp;
             Mass = mass;
         }
 
-        public int ChangeMass(int amount)
+        public virtual bool AreSame(Item compItem)
         {
-            Mass += amount;
-            return Mass;
+            if (Hp == compItem.Hp && MaxHp == compItem.MaxHp && IsBroken == compItem.IsBroken && Mass == compItem.Mass)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public int Harm(int posAmount)
@@ -42,6 +50,10 @@ namespace Star_Trader_Universe
             if (Hp <= 0)
             {
                 res = true;
+            }
+            else if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
             }
             IsBroken = res;
             return res;

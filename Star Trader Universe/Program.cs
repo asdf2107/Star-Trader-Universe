@@ -14,6 +14,12 @@ namespace Star_Trader_Universe
         static void Main(string[] args)
         {
             Setup();
+            Planet Earth = new Planet();
+            Earth.Traders.Add(new Factory());
+            for (int i = 0; i < 10; i++)
+            {
+                Earth.Traders[0].AddToTrades(new Item(100, 10), 500);
+            }
             c.ReadKey(true);
         }
 

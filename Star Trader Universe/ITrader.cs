@@ -7,11 +7,11 @@ namespace Star_Trader_Universe
     public interface ITrader
     {
         public int Money { get; set; }
-        public List<ISellable> Inventory { get; set; }
-        public Dictionary<ISellable, int> Trades { get; set; } // item - min price
-        public Dictionary<ISellable, int> Wishes { get; set; } // item - max price
+        public List<IPhysical> Inventory { get; set; }
+        public Dictionary<IPhysical, int> Trades { get; set; } // item - min price
+        public Dictionary<IPhysical, int> Wishes { get; set; } // item - max price
 
-        public bool Sell(ITrader buyer, ISellable item, int proposedPrice)
+        public bool Sell(ITrader buyer, IPhysical item, int proposedPrice)
         {
             if (Trades.ContainsKey(item))
             {
@@ -27,9 +27,9 @@ namespace Star_Trader_Universe
             return false;
         }
 
-        public bool Buy(ITrader seller, ISellable item, int proposedPrice)
+        public bool Buy(ITrader seller, IPhysical item, int proposedPrice)
         {
-            ISellable sameItem = seller.GetSame(item);
+            IPhysical sameItem = seller.GetSame(item);
             if (Wishes.ContainsKey(item) && sameItem != null)
             {
                 if (Wishes[item] >= proposedPrice && Money >= proposedPrice)
@@ -45,9 +45,9 @@ namespace Star_Trader_Universe
             return false;
         }
 
-        ISellable GetSame(ISellable origItem)
+        IPhysical GetSame(IPhysical origItem)
         {
-            foreach (ISellable i in Inventory)
+            foreach (IPhysical i in Inventory)
             {
                 if (origItem.AreSame(i))
                 {
@@ -57,7 +57,7 @@ namespace Star_Trader_Universe
             return null;
         }
 
-        public bool AddToTrades(ISellable item, int minPrice)
+        public bool AddToTrades(IPhysical item, int minPrice)
         {
             if (Inventory.Contains(item))
             {
@@ -68,7 +68,7 @@ namespace Star_Trader_Universe
             return false;
         }
 
-        public bool RemoveFromTrades(ISellable item)
+        public bool RemoveFromTrades(IPhysical item)
         {
             if (Trades.ContainsKey(item))
             {
@@ -79,13 +79,13 @@ namespace Star_Trader_Universe
             return false;
         }
 
-        public bool AddToWishes(ISellable item, int minPrice)
+        public bool AddToWishes(IPhysical item, int minPrice)
         {
             Wishes.Add(item, minPrice);
             return true;
         }
 
-        public bool RemoveFromWishes(ISellable item)
+        public bool RemoveFromWishes(IPhysical item)
         {
             if (Wishes.ContainsKey(item))
             {

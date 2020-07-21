@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using c = System.Console;
 
 namespace Star_Trader_Universe
@@ -10,16 +11,27 @@ namespace Star_Trader_Universe
         static ConsoleColor BackgroundColor = ConsoleColor.Black;
         static int Width = 120;
         static int Height = 40;
+        static Person Player = new Person();
 
         static void Main(string[] args)
         {
             Setup();
             Planet Earth = new Planet();
-            Earth.Traders.Add(new Factory());
-            for (int i = 0; i < 10; i++)
+            Factory zaz = new Factory();
+            Earth.ActiveTraders.Add(zaz);
+            for (int i = 0; i < 5; i++)
             {
-                Earth.Traders[0].AddToTrades(new Item(100, 10), 500);
+                Item item = new Item(100, 10);
+                zaz.Inventory.Add(item);
+                ((ITrader)zaz).AddToTrades(item, 500);
             }
+            c.SetCursorPosition(0, 0);
+            Earth.ShowTrades();
+            c.ReadKey(true);
+            List<IPhysical> l = new List<IPhysical>(zaz.Trades.Keys);
+            ((ITrader)zaz).Sell(Player, l[0], 550);
+            c.WriteLine(Player.Money);
+            Earth.ShowTrades();
             c.ReadKey(true);
         }
 

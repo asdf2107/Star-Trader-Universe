@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public interface ISellable
+    public interface IPhysical
     {
         public int Mass { get; set; }
 
@@ -14,7 +14,7 @@ namespace Star_Trader_Universe
             return Mass;
         }
 
-        public bool AreSame(ISellable compare)
+        public bool AreSame(IPhysical compare)
         {
             if (Mass == compare.Mass)
             {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public class Resource : ISellable
+    public class Resource : IPhysical
     {
         public enum Material
         {

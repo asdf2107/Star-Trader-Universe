@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KellermanSoftware.CompareNetObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,7 +22,9 @@ namespace Star_Trader_Universe
 
         public bool AreSame(IPhysical compare)
         {
-            if (Mass == compare.Mass)
+            CompareLogic compareLogic = new CompareLogic();
+            ComparisonResult result = compareLogic.Compare(this, compare);
+            if (result.AreEqual)
             {
                 return true;
             }

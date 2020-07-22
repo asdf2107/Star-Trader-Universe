@@ -6,4 +6,8 @@
     <RootNamespace>Star_Trader_Universe</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CompareNETObjects" Version="4.66.0" />
+  </ItemGroup>
+
 </Project>

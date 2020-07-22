@@ -22,17 +22,5 @@ namespace Star_Trader_Universe
             else
                 return $"Mass: {Mass}, hp: {Hp}, maxHp: {MaxHp}, functioning: {IsFunctioning}";
         }
-
-        public virtual bool AreSame(Item compItem)
-        {
-            if (Hp == compItem.Hp && MaxHp == compItem.MaxHp && IsFunctioning == compItem.IsFunctioning && Mass == compItem.Mass)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

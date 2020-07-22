@@ -14,6 +14,11 @@ namespace Star_Trader_Universe
             return Mass;
         }
 
+        public string GetSpecs()
+        {
+            return $"Mass: {Mass}";
+        }
+
         public bool AreSame(IPhysical compare)
         {
             if (Mass == compare.Mass)

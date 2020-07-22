@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using c = System.Console;
 
 namespace Star_Trader_Universe
@@ -11,13 +12,13 @@ namespace Star_Trader_Universe
         static ConsoleColor BackgroundColor = ConsoleColor.Black;
         static int Width = 120;
         static int Height = 40;
-        static Person Player = new Person();
+        static Person Player = new Person("Player");
 
         static void Main(string[] args)
         {
             Setup();
-            Planet Earth = new Planet();
-            Factory zaz = new Factory();
+            Planet Earth = new Planet(0, 0);
+            Factory zaz = new Factory("ZAZ Factory");
             Earth.ActiveTraders.Add(zaz);
             for (int i = 0; i < 5; i++)
             {
@@ -33,6 +34,8 @@ namespace Star_Trader_Universe
             c.WriteLine(Player.Money);
             Earth.ShowTrades();
             c.ReadKey(true);
+
+
         }
 
         static void Setup()
@@ -44,11 +47,13 @@ namespace Star_Trader_Universe
             c.WindowHeight = Height;
             c.BufferWidth = c.WindowWidth;
             c.BufferHeight = c.WindowHeight;
+            c.Title = "Star Trader Universe";
             Update();
         }
 
         static void Update()
         {
+            c.Clear();
             DrawPanel();
         }
 

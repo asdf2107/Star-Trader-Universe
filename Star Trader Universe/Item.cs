@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Star_Trader_Universe
 {
     public class Item : IPhysical, IDamageable
@@ -16,6 +13,14 @@ namespace Star_Trader_Universe
             Hp = maxHp;
             MaxHp = maxHp;
             Mass = mass;
+        }
+
+        public virtual string GetSpecs(bool extended = false)
+        {
+            if (!extended)
+                return $"Mass: {Mass}, hp: {Hp}, functioning: {IsFunctioning}";
+            else
+                return $"Mass: {Mass}, hp: {Hp}, maxHp: {MaxHp}, functioning: {IsFunctioning}";
         }
 
         public virtual bool AreSame(Item compItem)

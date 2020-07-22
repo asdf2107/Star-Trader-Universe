@@ -6,6 +6,7 @@ namespace Star_Trader_Universe
 {
     public interface ITrader
     {
+        public string Name { get; set; }
         public int Money { get; set; }
         public List<IPhysical> Inventory { get; set; }
         public Dictionary<IPhysical, int> Trades { get; set; } // item - min price

@@ -9,7 +9,7 @@ namespace Star_Trader_Universe
         public string Name { get; set; }
         public int Hp { get; set; } = 10;
         public int Mass { get; set; } = 1;
-        public int Money { get; set; } = 1000;
+        public int Money { get; set; } = 100000;
         public List<IPhysical> Inventory { get; set; } = new List<IPhysical>();
         public Dictionary<IPhysical, int> Trades { get; set; } = new Dictionary<IPhysical, int>();
         public Dictionary<IPhysical, int> Wishes { get; set; } = new Dictionary<IPhysical, int>();

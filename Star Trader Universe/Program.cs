@@ -18,17 +18,24 @@ namespace Star_Trader_Universe
             Earth.ActiveTraders.Add(zaz);
             for (int i = 0; i < 5; i++)
             {
-                Item item = new Item(100, 10);
+                Item item = new Item(100 * i + 200, 10 * i * i + 50);
                 zaz.Inventory.Add(item);
-                ((ITrader)zaz).AddToTrades(item, 500);
+                ((ITrader)zaz).AddToTrades(item, i * 5000 + 50000);
             }
             c.SetCursorPosition(0, 0);
-            Earth.ShowTrades();
-            c.ReadKey(true);
-            List<IPhysical> l = new List<IPhysical>(zaz.Trades.Keys);
-            ((ITrader)zaz).Sell(Player, l[0], 550);
+            PairValue pv = Earth.ShowTrades();
+            if (pv != null)
+            {
+                TraderItem ti = pv.InfoObject as TraderItem;
+                ti.Trader.Sell(Player, ti.Item, ti.Price);
+            }
+            c.Clear();
+            Earth.ShowTrades(false);
             c.WriteLine(Player.Money);
-            Earth.ShowTrades();
+            foreach (IPhysical p in Player.Inventory)
+            {
+                c.WriteLine(p.GetSpecs());
+            }
             c.ReadKey(true);
         }
 

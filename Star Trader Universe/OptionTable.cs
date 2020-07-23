@@ -7,41 +7,64 @@ namespace Star_Trader_Universe
 {
     public class OptionTable
     {
-        List<string> Options { get; set; } = new List<string>();
+        Dictionary<string, PairValue> Options = new Dictionary<string, PairValue>();
         int Chosen = -1;
         Point StartLoc;
         int Width;
         int Height;
         int ElementHeight = 3;
 
-        public OptionTable(List<string> options, Point startLoc, int w, int h)
+        public OptionTable(Dictionary<string, PairValue> options, Point startLoc, int w, int h)
         {
             Options = options;
+            NumerateOptions();
             StartLoc = startLoc;
             Width = w;
             Height = h;
         }
 
-        public void Draw()
+        void NumerateOptions()
         {
-            for (int i = 0; i < Options.Count; i++)
+            int i = 0;
+            foreach (var keyPair in Options)
             {
-                g.DrawWindow(StartLoc.X, StartLoc.Y + i * ElementHeight, Width, ElementHeight, Options[i], i == Chosen ? true : false);
+                keyPair.Value.Num = i++;
             }
         }
 
-        public int GiveControl()
+        public void Draw()
+        {
+            foreach (var keyPair in Options)
+            {
+                g.DrawWindow(StartLoc.X, StartLoc.Y + keyPair.Value.Num * ElementHeight, Width, ElementHeight, keyPair.Key, keyPair.Value.Num == Chosen ? true : false);
+            }
+        }
+
+        public KeyValuePair<string, PairValue> GetKeyValuePair(int num)
+        {
+            foreach (var keyPair in Options)
+            {
+                if (keyPair.Value.Num == num)
+                {
+                    return keyPair;
+                }
+            }
+            throw new ArgumentException($"KeyPair for num {num} not found!");
+        }
+
+        public PairValue GiveControl()
         {
             Chosen = Chosen == -1 ? 0 : Chosen;
+            Draw();
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             if (keyPressed.Key == ConsoleKey.Escape)
             {
                 Chosen = -1;
-                return Chosen;
+                return GetKeyValuePair(Chosen).Value;
             }
             else if (keyPressed.Key == ConsoleKey.Enter || keyPressed.Key == ConsoleKey.Spacebar)
             {
-                return Chosen;
+                return GetKeyValuePair(Chosen).Value;
             }
             else if (keyPressed.Key == ConsoleKey.UpArrow)
             {

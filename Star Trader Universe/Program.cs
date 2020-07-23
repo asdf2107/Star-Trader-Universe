@@ -8,9 +8,9 @@ namespace Star_Trader_Universe
 {
     class Program
     {
-        static Person Player = new Person("Player");
+        public static Person Player = new Person("Player");
 
-        static void Main(string[] args)
+        static void Main()
         {
             Setup();
             Planet Earth = new Planet(0, 0);
@@ -24,18 +24,20 @@ namespace Star_Trader_Universe
             }
             c.SetCursorPosition(0, 0);
             PairValue pv = Earth.ShowTrades();
-            if (pv != null)
+            while (pv != null && pv.InfoObject != null)
             {
                 TraderItem ti = pv.InfoObject as TraderItem;
-                ti.Trader.Sell(Player, ti.Item, ti.Price);
+                ti.Trader.Sell(Player, ti.Item, ti.Price);               
+                pv = Earth.ShowTrades();
             }
-            c.Clear();
             Earth.ShowTrades(false);
             c.WriteLine(Player.Money);
             foreach (IPhysical p in Player.Inventory)
             {
                 c.WriteLine(p.GetSpecs());
             }
+            var msg = new g.Popup("bruh", g.Popup.DialogButtons.YesNo);
+            msg.GiveControl();
             c.ReadKey(true);
         }
 

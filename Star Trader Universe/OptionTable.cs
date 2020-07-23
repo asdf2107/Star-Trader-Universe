@@ -55,12 +55,13 @@ namespace Star_Trader_Universe
         public PairValue GiveControl()
         {
             Chosen = Chosen == -1 ? 0 : Chosen;
-            Draw();
+            g.Draw();
+            this.Draw();
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             if (keyPressed.Key == ConsoleKey.Escape)
             {
                 Chosen = -1;
-                return GetKeyValuePair(Chosen).Value;
+                return new PairValue(null);
             }
             else if (keyPressed.Key == ConsoleKey.Enter || keyPressed.Key == ConsoleKey.Spacebar)
             {
@@ -70,23 +71,11 @@ namespace Star_Trader_Universe
             {
                 ChoosePrevious();
             }
-            else if (keyPressed.Key == ConsoleKey.DownArrow)
+            else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.Tab)
             {
                 ChooseNext();
             }
             return GiveControl();
-        }
-
-        public void Choose(int pos)
-        {
-            if (pos >= 0 && pos < Options.Count)
-            {
-                Chosen = pos;
-            }
-            else
-            {
-                throw new ArgumentException($"pos vas invalid (${pos}; Options.Count was {Options.Count})");
-            }
         }
 
         public void ChooseNext()

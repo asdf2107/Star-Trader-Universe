@@ -6,8 +6,9 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public class Spaceship
+    public class Spaceship : INameable
     {
+        public string Name { get; set; }
         public Point Location { get; set; }
         public List<IPhysical> Parts { get; set; } = new List<IPhysical>();
         public List<IPhysical> Cargo { get; set; } = new List<IPhysical>();
@@ -16,8 +17,9 @@ namespace Star_Trader_Universe
         public int PeopleCap { get; protected set; } = 20;
         public int Thrust { get; protected set; } = 110000;
 
-        public Spaceship(Point loc)
+        public Spaceship(string name, Point loc)
         {
+            Name = name;
             Location = loc;
         }
 

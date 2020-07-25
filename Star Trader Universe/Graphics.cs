@@ -95,6 +95,7 @@ namespace Star_Trader_Universe
                 ConsoleKeyInfo keyPressed = c.ReadKey(true);
                 if (keyPressed.Key == ConsoleKey.Enter || keyPressed.Key == ConsoleKey.Spacebar)
                 {
+                    Draw();
                     return ButtonsAvailable[Chosen];
                 }
                 else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.Tab)

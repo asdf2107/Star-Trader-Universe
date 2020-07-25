@@ -10,14 +10,18 @@ namespace Star_Trader_Universe
     class Program
     {
         public static Person Player = new Person("Player");
-        public static List<Planet> Planets = new List<Planet>();
+        public static List<PlanetarySystem> Systems = new List<PlanetarySystem>();
 
         static void Main()
         {
             Setup();
-            Planets.Add(new Planet("Earth", 0, 0));
+            Player.MainSpaceship = new Spaceship("Bruhlia", new Point(0, 0));
+            Systems.Add(new PlanetarySystem("Solar System", new List<Planet>()));
+            Systems.Add(new PlanetarySystem("Andromeda", new List<Planet>()));
+            Systems[0].AddPlanet(new Planet("Earth"));
+            Systems[1].AddPlanet(new Planet("Nua"));
             Factory zaz = new Factory("ZAZ Factory");
-            Planets[0].ActiveTraders.Add(zaz);
+            Systems[0][0].ActiveTraders.Add(zaz);
             for (int i = 0; i < 8; i++)
             {
                 Item item = new Item(100 * i + 100, 10 * i * i + 50);
@@ -25,14 +29,28 @@ namespace Star_Trader_Universe
                 ((ITrader)zaz).AddToTrades(item, i * 5000 + 50000);
             }
             c.SetCursorPosition(0, 0);
-            object pv = Planets[0].ShowTrades();
-            while (pv != null)
+            while (true)
             {
-                TraderItem ti = pv as TraderItem;
-                ti.Trader.Sell(Player, ti.Item, ti.Price);               
-                pv = Planets[0].ShowTrades();
+                object pl = ShowPlanets();
+
+                Planet pln = pl as Planet;
+                bool cont = true;
+                while (cont)
+                {
+                    object pv = pln.ShowTrades();
+                    if (pv != null)
+                    {
+                        TraderItem ti = pv as TraderItem;
+                        ti.Trader.Sell(Player, ti.Item, ti.Price);
+                    }
+                    else
+                    {
+                        cont = false;
+                    }
+                }
+                g.Clear();
             }
-            Planets[0].ShowTrades(false);
+            Systems[0][0].ShowTrades(false);
             c.WriteLine(Player.Money);
             foreach (IPhysical p in Player.Inventory)
             {
@@ -58,22 +76,19 @@ namespace Star_Trader_Universe
 
         static void Update()
         {
-            c.Clear();
-            g.DrawPanel();
+            g.Draw();
         }
 
-        public static int GetDistance(Point p1, Point p2)
-        {
-            return (int)Math.Floor(Math.Sqrt((p2.X - p1.X) * (p2.X - p1.X) + (p2.Y - p1.Y) * (p2.Y - p1.Y)));
-        }
-
-        public object ShowPlanets(bool giveControl = true)
+        public static object ShowPlanets(bool giveControl = true)
         {
             Dictionary<string, PairValue> options = new Dictionary<string, PairValue>();
-            foreach (Planet p in Planets)
+            foreach (PlanetarySystem ps in Systems)
             {
-                options.Add(string.Format("│{0,-15}│{1,-10}│", p.Name, GetDistance(Player.MainSpaceship.Location, p.Location)),
-                        new PairValue(p));
+                for (int i = 0; i < ps.Planets.Count; i++)
+                {
+                    options.Add(string.Format("│{0,-15}│{1,-15}│{2,7} ly│", ps[i].Name, ps.Name, ((ILocatable)ps).GetDistanceFrom(Player.MainSpaceship.Location)),
+                            new PairValue(ps[i]));
+                }
             }
             OptionTable ot = new OptionTable(options, new Point(0, 0), 100, 40);
             ot.Draw();

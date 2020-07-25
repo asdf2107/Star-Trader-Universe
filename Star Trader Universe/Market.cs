@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using c = System.Console;
+using g = Star_Trader_Universe.Graphics;
 
 namespace Star_Trader_Universe
 {
@@ -10,19 +11,29 @@ namespace Star_Trader_Universe
         public object ShowTrades(bool giveControl = true)
         {
             Dictionary<string, PairValue> options = new Dictionary<string, PairValue>();
+            bool empty = true;
             foreach (ITrader t in ActiveTraders)
             {
                 foreach (IPhysical s in t.Trades.Keys)
                 {
                     options.Add(string.Format("│{0,-15}│{1,-10}│{2,-15}│{3,10} $│", t.Name, s.GetType().Name, s.GetSpecs(), t.Trades[s]),
                         new PairValue(new TraderItem(t, s, t.Trades[s])));
+                    empty = false;
                 }
             }
-            OptionTable ot = new OptionTable(options, new System.Drawing.Point(0, 0), 100, 18);
-            ot.Draw();
-            if (giveControl)
+            if (!empty)
             {
-                return ot.GiveControl();
+                OptionTable ot = new OptionTable(options, new System.Drawing.Point(0, 0), 100, 18);
+                ot.Draw();
+                if (giveControl)
+                {
+                    return ot.GiveControl();
+                }
+            }
+            else
+            {
+                var popup = new g.Popup("No trades here!");
+                popup.GiveControl();
             }
             return null;
         }

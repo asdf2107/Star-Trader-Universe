@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public class Factory : ITrader
+    public class Factory : ITrader, INameable
     {
         public string Name { get; set; }
         public int Money { get; set; } = 0;

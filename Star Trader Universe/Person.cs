@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public class Person : IPhysical, ITrader
+    public class Person : IPhysical, ITrader, INameable
     {
         public string Name { get; set; }
         public int Hp { get; set; } = 10;

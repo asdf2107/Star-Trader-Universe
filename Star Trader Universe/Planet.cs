@@ -5,20 +5,18 @@ using c = System.Console;
 
 namespace Star_Trader_Universe
 {
-    public class Planet : Market
+    public class Planet : Market, INameable
     {
         public string Name { get; set; }
         public int Gravity { get; protected set; }
-        public Point Location { get; set; }
         public List<Resource> Resources { get; set; } = new List<Resource>();
         public List<Factory> Factories { get; set; } = new List<Factory>();
         public List<Person> People { get; set; } = new List<Person>();
         public List<Spaceship> Spaceships { get; set; } = new List<Spaceship>();
 
-        public Planet(string name, int x, int y, int g = 10)
+        public Planet(string name, int g = 10)
         {
             Name = name;
-            Location = new Point(x, y);
             Gravity = g;
         }
 

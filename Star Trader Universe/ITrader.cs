@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Star_Trader_Universe
 {
-    public interface ITrader
+    public interface ITrader : INameable
     {
         public string Name { get; set; }
         public int Money { get; set; }

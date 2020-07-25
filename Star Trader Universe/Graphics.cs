@@ -34,7 +34,7 @@ namespace Star_Trader_Universe
         static void DrawMoney()
         {
             c.SetCursorPosition(2, 38);
-            c.WriteLine(Program.Player.Money);
+            c.WriteLine(Program.Player.Money + " $");
         }
 
         public class Popup

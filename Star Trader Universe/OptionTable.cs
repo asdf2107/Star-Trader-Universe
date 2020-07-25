@@ -8,19 +8,22 @@ namespace Star_Trader_Universe
     public class OptionTable
     {
         Dictionary<string, PairValue> Options = new Dictionary<string, PairValue>();
-        int Chosen = -1;
-        Point StartLoc;
-        int Width;
-        int Height;
-        int ElementHeight = 3;
+        public int Chosen { get; private set; } = -1;
+        Point StartLoc { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+        int ElementHeight { get; set; } = 3;
+        bool ConfirmExit { get; set; }
 
-        public OptionTable(Dictionary<string, PairValue> options, Point startLoc, int w, int h)
+
+        public OptionTable(Dictionary<string, PairValue> options, Point startLoc, int w, int h, bool confirmExit = true)
         {
             Options = options;
             NumerateOptions();
             StartLoc = startLoc;
             Width = w;
             Height = h;
+            ConfirmExit = confirmExit;
         }
 
         void NumerateOptions()
@@ -34,10 +37,41 @@ namespace Star_Trader_Universe
 
         public void Draw()
         {
+            int maxCount = Height / ElementHeight;
+            int linesFromBittom = 3;
+            int startPos = Chosen > maxCount - linesFromBittom ? Chosen + linesFromBittom - maxCount : 0;
+            bool upperMore = startPos >= 1 ? true : false;
+            bool lowerMore = (Options.Count - startPos + 1) * ElementHeight > Height ? true : false;
+
+            int i = 0;
             foreach (var keyPair in Options)
             {
-                g.DrawWindow(StartLoc.X, StartLoc.Y + keyPair.Value.Num * ElementHeight, Width, ElementHeight, keyPair.Key, keyPair.Value.Num == Chosen ? true : false);
+                int pos = i - startPos + (upperMore ? 1 : 0);
+
+                if (i >= Options.Count)
+                {
+                    break;
+                }
+                else if (i == startPos - 1 && upperMore)
+                {
+                    DrawMore(0);
+                }
+                else if (i == startPos + maxCount - 1 && lowerMore)
+                {
+                    DrawMore((maxCount - 1) * ElementHeight);
+                    break;
+                }
+                else if (pos >= 0)
+                {
+                    g.DrawWindow(StartLoc.X, StartLoc.Y + pos * ElementHeight, Width, ElementHeight, keyPair.Key, keyPair.Value.Num == Chosen ? true : false);
+                }
+                i++;
             }
+        }
+
+        void DrawMore(int dy)
+        {
+            g.DrawWindow(StartLoc.X, StartLoc.Y + dy, Width, ElementHeight, "...", false);
         }
 
         public KeyValuePair<string, PairValue> GetKeyValuePair(int num)
@@ -52,20 +86,22 @@ namespace Star_Trader_Universe
             throw new ArgumentException($"KeyPair for num {num} not found!");
         }
 
-        public PairValue GiveControl()
+        public object GiveControl()
         {
             Chosen = Chosen == -1 ? 0 : Chosen;
-            g.Draw();
             this.Draw();
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             if (keyPressed.Key == ConsoleKey.Escape)
             {
-                Chosen = -1;
-                return new PairValue(null);
+                if (!ConfirmExit || new g.Popup("Exit?", g.Popup.DialogButtons.YesNo).GiveControl() == g.Popup.DialogResult.Yes)
+                {
+                    Chosen = -1;
+                    return null;
+                }
             }
             else if (keyPressed.Key == ConsoleKey.Enter || keyPressed.Key == ConsoleKey.Spacebar)
             {
-                return GetKeyValuePair(Chosen).Value;
+                return GetKeyValuePair(Chosen).Value.InfoObject;
             }
             else if (keyPressed.Key == ConsoleKey.UpArrow)
             {

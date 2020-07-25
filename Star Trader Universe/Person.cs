@@ -13,6 +13,7 @@ namespace Star_Trader_Universe
         public List<IPhysical> Inventory { get; set; } = new List<IPhysical>();
         public Dictionary<IPhysical, int> Trades { get; set; } = new Dictionary<IPhysical, int>();
         public Dictionary<IPhysical, int> Wishes { get; set; } = new Dictionary<IPhysical, int>();
+        public Spaceship MainSpaceship { get; set; } = null;
 
         public Person(string name)
         {

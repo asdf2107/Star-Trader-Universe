@@ -7,6 +7,7 @@ namespace Star_Trader_Universe
 {
     public class Planet : Market
     {
+        public string Name { get; set; }
         public int Gravity { get; protected set; }
         public Point Location { get; set; }
         public List<Resource> Resources { get; set; } = new List<Resource>();
@@ -14,8 +15,9 @@ namespace Star_Trader_Universe
         public List<Person> People { get; set; } = new List<Person>();
         public List<Spaceship> Spaceships { get; set; } = new List<Spaceship>();
 
-        public Planet(int x, int y, int g = 10)
+        public Planet(string name, int x, int y, int g = 10)
         {
+            Name = name;
             Location = new Point(x, y);
             Gravity = g;
         }

@@ -7,7 +7,7 @@ namespace Star_Trader_Universe
     {
         public List<ITrader> ActiveTraders { get; set; } = new List<ITrader>();
 
-        public PairValue ShowTrades(bool giveControl = true)
+        public object ShowTrades(bool giveControl = true)
         {
             Dictionary<string, PairValue> options = new Dictionary<string, PairValue>();
             foreach (ITrader t in ActiveTraders)
@@ -18,7 +18,7 @@ namespace Star_Trader_Universe
                         new PairValue(new TraderItem(t, s, t.Trades[s])));
                 }
             }
-            OptionTable ot = new OptionTable(options, new System.Drawing.Point(0, 0), 100, 40);
+            OptionTable ot = new OptionTable(options, new System.Drawing.Point(0, 0), 100, 18);
             ot.Draw();
             if (giveControl)
             {

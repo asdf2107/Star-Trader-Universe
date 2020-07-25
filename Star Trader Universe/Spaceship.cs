@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace Star_Trader_Universe
 {
     public class Spaceship
     {
+        public Point Location { get; set; }
         public List<IPhysical> Parts { get; set; } = new List<IPhysical>();
         public List<IPhysical> Cargo { get; set; } = new List<IPhysical>();
         public List<Person> People { get; set; } = new List<Person>();
@@ -14,9 +16,9 @@ namespace Star_Trader_Universe
         public int PeopleCap { get; protected set; } = 20;
         public int Thrust { get; protected set; } = 110000;
 
-        public Spaceship()
+        public Spaceship(Point loc)
         {
-
+            Location = loc;
         }
 
         public List<Person> LeaveAll()
